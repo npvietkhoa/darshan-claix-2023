@@ -22,3 +22,44 @@ The darshan-test directory contains various test harnesses, benchmarks,
 patches, and unsupported utilites that are mainly of interest to Darshan
 developers.
 
+# Building Darshan-runtime for Instrumenting Applications on CLAIX-2023
+
+This guide outlines the steps to compile and set up **Darshan-runtime** for instrumenting applications on the **CLAIX-2023** cluster.
+
+## Steps to Compile and Install
+
+1. **Prepare the environment**:
+    ```bash
+    ./prepare
+    ```
+
+2. **Navigate to the Darshan-runtime directory**:
+    ```bash
+    cd darshan-runtime/
+    ```
+
+3. **Configure the build**:
+    ```bash
+    ./configure \
+        CC=${MPICC} \
+        --with-log-path-by-env=DARSHAN_LOGPATH \
+        --with-jobid-env=NONE \
+        --with-username-env=SLURM_JOB_USER \
+        --enable-hdf5-mod \
+        --with-hdf5=/cvmfs/software.hpc.rwth.de/Linux/RH8/x86_64/intel/sapphirerapids/software/HDF5/1.14.0-iimpi-2022a \
+        --prefix=$HPCWORK/darshan_runtime-claix_2023
+    ```
+
+4. **Build and install**:
+    ```bash
+    make
+    make install
+    ```
+
+## Key Information
+
+- The compiled runtime libraries and binaries will be installed in the following directory:  
+  `$HPCWORK/darshan_runtime-claix_2023`.
+
+- Application execution logs generated with Darshan can be saved to the path specified in the `DARSHAN_LOGPATH` environment variable. This path can be defined as needed for your use case.
+
